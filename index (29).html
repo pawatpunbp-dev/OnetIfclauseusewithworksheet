@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>If Clause แนว O-NET | แตะคำเพื่อดูความหมาย</title>
+<link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@400;600;700&family=Fraunces:opsz,wght@9..144,600;9..144,800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#fbf7ef; --ink:#1f2a37; --muted:#6b7280; --line:#e7dfcf;
+    --accent:#0f766e; --accent-soft:#d7efeb; --hl:#fde68a; --card:#ffffff; --if:#b45309;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0}
+  body{font-family:"Sarabun",system-ui,sans-serif;background:var(--paper);color:var(--ink);font-size:18px;line-height:1.75;padding-bottom:240px}
+  header{background:var(--accent);color:#fff;padding:22px 18px 18px}
+  header .tag{font-size:13px;letter-spacing:.08em;opacity:.85;text-transform:uppercase}
+  header h1{font-family:"Fraunces",serif;font-weight:800;font-size:28px;line-height:1.2;margin:4px 0 8px}
+  header p{margin:0;font-size:16px;opacity:.95}
+  .tabs{position:sticky;top:0;z-index:5;display:flex;gap:6px;padding:10px 14px;background:var(--paper);border-bottom:1px solid var(--line)}
+  .tabs button{flex:1;font:inherit;font-size:16px;font-weight:600;padding:8px 10px;border-radius:999px;border:1.5px solid var(--accent);background:#fff;color:var(--accent);cursor:pointer}
+  .tabs button.on{background:var(--accent);color:#fff}
+  main{max-width:760px;margin:0 auto;padding:8px 14px}
+  .howto{background:#fff;border:1px dashed var(--accent);border-radius:12px;padding:10px 14px;margin:14px 0;font-size:16px}
+  .part{font-family:"Fraunces",serif;font-weight:800;font-size:20px;color:var(--accent);margin:26px 0 8px;letter-spacing:.01em}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:14px 16px;margin:12px 0;box-shadow:0 1px 0 rgba(0,0,0,.03)}
+  .ghead{font-weight:700}
+  .gsit{color:var(--muted);margin-bottom:6px}
+  .line{display:flex;gap:8px;align-items:flex-start;padding:2px 0}
+  .line .txt{flex:1}
+  .say{flex:none;border:none;background:var(--accent-soft);color:var(--accent);border-radius:8px;width:34px;height:30px;cursor:pointer;font-size:15px;margin-top:3px}
+  .say:active{transform:scale(.95)}
+  .item{border-top:1px solid var(--line);margin-top:10px;padding-top:8px}
+  .q{font-weight:600}
+  .opt{padding-left:22px}
+  .w{cursor:pointer;border-radius:4px;padding:0 1px;transition:background .15s}
+  .w:hover{background:var(--accent-soft)}
+  .w.sel{background:var(--hl)}
+  b .w, .if{color:var(--if)}
+  b{font-weight:700}
+  /* sheet */
+  .sheet{position:fixed;left:0;right:0;bottom:0;z-index:20;background:#fff;border-top:3px solid var(--accent);border-radius:18px 18px 0 0;box-shadow:0 -8px 30px rgba(0,0,0,.15);padding:14px 18px 20px;transform:translateY(110%);transition:transform .22s ease}
+  .sheet.show{transform:none}
+  .sheet .top{display:flex;align-items:center;gap:10px}
+  .sheet .word{font-family:"Fraunces",serif;font-weight:800;font-size:30px;line-height:1.1}
+  .sheet .pos{font-size:14px;color:#fff;background:var(--accent);border-radius:999px;padding:1px 10px}
+  .sheet .close{margin-left:auto;border:none;background:#f3f4f6;border-radius:999px;width:36px;height:36px;font-size:18px;cursor:pointer}
+  .sheet .btns{display:flex;gap:8px;margin:10px 0 6px}
+  .sheet .btns button{font:inherit;font-size:15px;font-weight:600;border:1.5px solid var(--accent);background:var(--accent-soft);color:var(--accent);border-radius:10px;padding:5px 12px;cursor:pointer}
+  .row{display:flex;gap:10px;padding:4px 0;border-bottom:1px dotted var(--line)}
+  .row:last-child{border-bottom:none}
+  .row .k{flex:none;width:92px;color:var(--muted);font-size:15px;padding-top:2px}
+  .row .v{flex:1}
+  .read{font-size:22px;font-weight:700;color:var(--accent)}
+  /* word list */
+  #listView{display:none}
+  .search{width:100%;font:inherit;font-size:17px;padding:10px 14px;border:1.5px solid var(--line);border-radius:12px;margin:14px 0 6px;background:#fff}
+  .wl{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:6px}
+  .wl button{font:inherit;text-align:left;background:#fff;border:1px solid var(--line);border-radius:10px;padding:6px 10px;cursor:pointer;line-height:1.3}
+  .wl button small{display:block;color:var(--muted);font-size:13px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .count{color:var(--muted);font-size:14px}
+  footer{text-align:center;color:var(--muted);font-size:13px;margin:30px 0}
+</style>
+</head>
+<body>
+<header>
+  <div class="tag">O-NET M.3 · If Clause</div>
+  <h1>If Clause in O-NET Style</h1>
+  <p>คลังคำศัพท์คู่ใบงาน 10 ข้อ: แตะคำที่ไม่รู้ ดูคำอ่าน คำแปล คำเหมือน คำตรงข้าม แล้วไปตอบในใบงาน</p>
+</header>
+<div class="tabs">
+  <button id="tText" class="on">ข้อความในใบงาน</button>
+  <button id="tList">คำศัพท์ทั้งหมด</button>
+</div>
+<main>
+  <div id="textView">
+    <div class="howto">👆 <b>แตะคำไหนก็ได้</b> เพื่อดูความหมาย &nbsp;·&nbsp; 🔊 ปุ่มสีเขียวท้ายบรรทัด = ฟังทั้งประโยค &nbsp;·&nbsp; <span class="if"><b>ตัวหนาสีส้ม</b></span> = ประโยค if clause</div>
+    <div id="content"></div>
+  </div>
+  <div id="listView">
+    <input class="search" id="search" placeholder="พิมพ์คำภาษาอังกฤษ หรือคำแปลภาษาไทย…" autocomplete="off">
+    <div class="count" id="count"></div>
+    <div class="wl" id="wl"></div>
+  </div>
+  <footer>ใช้คู่กับใบงาน “If Clause in O-NET Style” · ไม่มีเฉลยในหน้านี้</footer>
+</main>
+
+<div class="sheet" id="sheet" role="dialog" aria-live="polite">
+  <div class="top">
+    <div class="word" id="sWord"></div>
+    <span class="pos" id="sPos"></span>
+    <button class="close" id="sClose" aria-label="ปิด">✕</button>
+  </div>
+  <div class="btns">
+    <button id="sSay">🔊 ฟังเสียง</button>
+    <button id="sSlow">🐢 ฟังช้า</button>
+  </div>
+  <div class="row"><div class="k">คำอ่าน</div><div class="v read" id="sRead"></div></div>
+  <div class="row"><div class="k">คำแปล</div><div class="v" id="sMean"></div></div>
+  <div class="row" id="rSyn"><div class="k">คำเหมือน</div><div class="v" id="sSyn"></div></div>
+  <div class="row" id="rAnt"><div class="k">คำตรงข้าม</div><div class="v" id="sAnt"></div></div>
+</div>
+
+<script>
+const DICT = {"a":["อะ / เอ","article","หนึ่ง (ใช้หน้าคำนามเอกพจน์)","",""],"a.m.":["เอ-เอ็ม","abbr.","เวลาก่อนเที่ยง (ตอนเช้า)","in the morning","p.m."],"about":["อะ-เบาท์","prep.","เกี่ยวกับ","",""],"according":["อะ-คอร์-ดิง","prep.","according to = ตามที่ (เรื่อง/ใคร) บอก","",""],"adopt":["อะ-ด็อปท์","v.","รับมาเลี้ยง, รับเป็นลูกบุญธรรม","take in","abandon (ทิ้ง)"],"adult":["แอ-ดัลท์","n.","ผู้ใหญ่","grown-up","child (เด็ก)"],"after":["อาฟ-เทอะ","prep.","หลังจาก","","before (ก่อน)"],"afternoon":["อาฟ-เทอะ-นูน","n.","ตอนบ่าย","",""],"all":["ออล","det.","ทั้งหมด, ทุก","every","none (ไม่มีเลย)"],"alone":["อะ-โลน","adv.","คนเดียว, ตามลำพัง","by oneself","together (ด้วยกัน)"],"already":["ออล-เร-ดี","adv.","แล้ว (เกิดขึ้นก่อนตอนนี้)","","yet (ยัง)"],"although":["ออล-โธ","conj.","แม้ว่า","though, even though",""],"an":["แอน / อัน","article","หนึ่ง (ใช้หน้าคำที่ขึ้นต้นด้วยเสียงสระ)","",""],"and":["แอนด์","conj.","และ","",""],"angry":["แอง-กรี","adj.","โกรธ","mad","happy (มีความสุข), calm (สงบ)"],"animal":["แอ-นิ-เมิล","n.","สัตว์","",""],"ann":["แอน","ชื่อเฉพาะ","แอน (ชื่อผู้หญิง)","",""],"anna":["แอน-นา","ชื่อเฉพาะ","แอนนา (ชื่อผู้หญิง)","",""],"answered":["อาน-เซิร์ด","v.","ตอบ (อดีตของ answer)","replied","asked (ถาม)"],"anyone":["เอ-นี-วัน","pron.","ใครก็ได้, ใครก็ตาม","anybody","no one (ไม่มีใคร)"],"anywhere":["เอ-นี-แวร์","adv.","ที่ไหนก็ได้","","nowhere (ไม่มีที่ไหนเลย)"],"apples":["แอ-เพิลส์","n.","แอปเปิล (พหูพจน์)","",""],"appreciate":["อะ-พรี-ชิ-เอท","v.","ซาบซึ้ง, ขอบคุณ; I’d appreciate it if … = จะขอบคุณมากถ้า…","be grateful for",""],"aquarium":["อะ-แคว-เรียม","n.","พิพิธภัณฑ์สัตว์น้ำ, อควาเรียม","",""],"are":["อาร์","v.","เป็น, อยู่, คือ (ใช้กับ you, we, they)","",""],"arrived":["อะ-ไรฟ์ด","v.","มาถึง (อดีตของ arrive)","came, reached","left (ออกไป)"],"asked":["อาสค์ท","v.","ถาม (อดีตของ ask)","","answered (ตอบ)"],"at":["แอท","prep.","ที่, ตอน (บอกสถานที่/เวลา)","",""],"bad":["แบด","adj.","ไม่ดี, เลวร้าย","terrible","good (ดี)"],"baht":["บาท","n.","บาท (สกุลเงินไทย)","",""],"bas":["บาส","ชื่อเฉพาะ","บาส (ชื่อผู้ชาย)","",""],"be":["บี","v.","เป็น, อยู่, คือ (รูปพื้นฐาน)","",""],"beach":["บีช","n.","ชายหาด","seaside",""],"because":["บิ-คอซ","conj.","เพราะว่า","since, as",""],"before":["บิ-ฟอร์","prep./conj.","ก่อน","","after (หลังจาก)"],"beliefs":["บิ-ลีฟส์","n.","ความเชื่อ (พหูพจน์)","",""],"believe":["บิ-ลีฟ","v.","เชื่อ","trust","doubt (สงสัย, ไม่เชื่อ)"],"believed":["บิ-ลีฟด์","v.","เชื่อ (อดีตของ believe)","",""],"believes":["บิ-ลีฟส์","v.","เชื่อ (ประธานเอกพจน์)","",""],"best":["เบสท์","adj.","ดีที่สุด; Best wishes = ด้วยความปรารถนาดี (คำลงท้ายจดหมาย)","","worst (แย่ที่สุด)"],"big":["บิก","adj.","ใหญ่","large","small (เล็ก)"],"birthday":["เบิร์ธ-เดย์","n.","วันเกิด","",""],"black":["แบล็ค","adj.","สีดำ","","white (สีขาว)"],"both":["โบธ","det.","ทั้งสอง","","neither (ไม่ทั้งสอง)"],"boy":["บอย","n.","เด็กผู้ชาย","","girl (เด็กผู้หญิง)"],"bring":["บริง","v.","นำมา, เอามา","take, carry",""],"but":["บัท","conj.","แต่","however",""],"by":["บาย","prep.","โดย, ทาง; by post = ทางไปรษณีย์","",""],"came":["เคม","v.","มา (อดีตของ come)","arrived","went (ไป)"],"can":["แคน","v.","สามารถ, ได้","be able to",""],"can't":["คานท์ / แคนท์","v.","ไม่สามารถ (= cannot)","","can (สามารถ)"],"candy":["แคน-ดี","n.","ลูกอม, ขนมหวาน","sweets",""],"cat":["แคท","n.","แมว","",""],"cats":["แคทส์","n.","แมว (พหูพจน์)","",""],"children":["ชิล-เดรน","n.","เด็กๆ (พหูพจน์ของ child)","kids","adults (ผู้ใหญ่)"],"choose":["ชูซ","v.","เลือก","pick, select",""],"city":["ซิ-ตี","n.","เมือง","town","countryside (ชนบท)"],"class":["คลาส","n.","ชั้นเรียน, ห้องเรียน","",""],"clear":["เคลียร์","adj.","ชัดเจน","certain","unclear (ไม่ชัดเจน)"],"cold":["โคลด์","n./adj.","ไข้หวัด (n.); เย็น, หนาว (adj.)","flu (หวัดใหญ่)","hot (ร้อน)"],"come":["คัม","v.","มา","arrive","go (ไป)"],"comes":["คัมส์","v.","มา (ประธานเอกพจน์)","",""],"complete":["คัม-พลีท","v.","ทำให้สมบูรณ์, เติมให้ครบ","finish, fill in",""],"conversation":["คอน-เวอร์-เซ-ชัน","n.","บทสนทนา","dialogue, talk",""],"countries":["คัน-ทรีส์","n.","ประเทศ (พหูพจน์)","nations",""],"country":["คัน-ทรี","n.","ประเทศ","nation",""],"cross":["ครอส","v.","ข้าม, ตัดผ่าน","go across",""],"crosses":["ครอส-ซิซ","v.","ข้าม, ตัดผ่าน (ประธานเอกพจน์); crosses your path = เดินตัดหน้าคุณ","",""],"day":["เดย์","n.","วัน","","night (กลางคืน)"],"dear":["เดียร์","adj.","ถึง… (คำขึ้นต้นจดหมาย), ที่รัก","",""],"deep":["ดีพ","adj.","ลึก; the deep end = ฝั่งน้ำลึก","","shallow (ตื้น)"],"dentist":["เดน-ทิสท์","n.","หมอฟัน, ทันตแพทย์","",""],"did":["ดิด","v.","ทำ (อดีตของ do), ใช้ช่วยประโยคปฏิเสธ/คำถามในอดีต","",""],"directions":["ได-เรค-ชันส์","n.","คำสั่ง, คำชี้แจง","instructions",""],"do":["ดู","v.","ทำ; ใช้ช่วยประโยคปฏิเสธ/คำถาม","",""],"door":["ดอร์","n.","ประตู","",""],"eat":["อีท","v.","กิน","",""],"email":["อี-เมล","n.","อีเมล","",""],"end":["เอนด์","n.","ด้าน, ปลาย, ตอนจบ; the shallow end = ฝั่งน้ำตื้นของสระ","","beginning (ตอนต้น)"],"enter":["เอน-เทอะ","v.","เข้าไป","go into","leave, exit (ออก)"],"every":["เอฟ-วรี","det.","ทุก","each, all",""],"everyone":["เอฟ-วรี-วัน","pron.","ทุกคน","everybody","no one (ไม่มีใคร)"],"exam":["อิก-แซม","n.","การสอบ","test",""],"expect":["อิก-สเปคท์","v.","คาดหวัง, คาดว่าจะเกิด","",""],"families":["แฟ-มิ-ลีส์","n.","ครอบครัว (พหูพจน์)","",""],"feature":["ฟี-เชอร์","n.","บทความพิเศษ (feature story = เรื่องเล่า/บทความน่าสนใจ)","",""],"find":["ไฟนด์","v.","หา, พบ; find families = ได้ครอบครัว/บ้านใหม่","","lose (ทำหาย)"],"finish":["ฟิ-นิช","v.","เสร็จ, จบ","end, complete","start (เริ่ม)"],"finished":["ฟิ-นิชท์","v.","เสร็จ, จบ (อดีต)","",""],"finishes":["ฟิ-นิช-ชิซ","v.","เสร็จ, จบ (ประธานเอกพจน์)","",""],"fon":["ฝน","ชื่อเฉพาะ","ฝน (ชื่อผู้หญิง)","",""],"for":["ฟอร์","prep.","สำหรับ, เพื่อ","",""],"found":["ฟาวนด์","v.","พบ, เจอ (อดีตของ find)","discovered","lost (ทำหาย)"],"from":["ฟรอม","prep.","จาก","","to (ไปยัง)"],"front":["ฟรันท์","n.","ด้านหน้า; in front of = ข้างหน้า","","back (ด้านหลัง)"],"fruit":["ฟรูท","n.","ผลไม้","",""],"funny":["ฟัน-นี","adj.","ตลก, ขำ","amusing","serious (จริงจัง)"],"gave":["เกฟว","v.","ให้ (อดีตของ give)","","took (เอาไป)"],"get":["เก็ท","v.","ได้รับ; get worse = แย่ลง","become",""],"go":["โก","v.","ไป","","come (มา)"],"good":["กู๊ด","adj.","ดี","nice","bad (ไม่ดี)"],"had":["แฮด","v.","มี (อดีตของ have); ใน If I had … = ถ้าฉันมี… (สมมติ)","",""],"hand":["แฮนด์","n.","มือ","",""],"hands":["แฮนด์ส","n.","มือ (พหูพจน์)","",""],"happy":["แฮป-ปี","adj.","มีความสุข, ที่น่ายินดี","glad","sad (เศร้า)"],"has":["แฮซ","v.","มี (ประธานเอกพจน์)","",""],"have":["แฮฟว","v.","มี; have bad luck = โชคร้าย","",""],"he":["ฮี","pron.","เขา (ผู้ชาย)","",""],"her":["เฮอร์","pron.","เธอ, ของเธอ","",""],"his":["ฮิซ","pron.","ของเขา (ผู้ชาย)","",""],"holding":["โฮล-ดิง","v.","ถืออยู่","carrying",""],"home":["โฮม","n.","บ้าน","house",""],"hope":["โฮพ","v.","หวังว่า","wish",""],"however":["ฮาว-เอฟ-เวอร์","adv.","อย่างไรก็ตาม","but",""],"hundreds":["ฮัน-เดรดส์","n.","หลายร้อย; hundreds of years = หลายร้อยปี","",""],"hurt":["เฮิร์ท","v.","เจ็บ, ทำให้เจ็บ","ache, pain",""],"hurts":["เฮิร์ทส์","v.","เจ็บ (ประธานเอกพจน์)","aches",""],"husbands":["ฮัซ-เบินดซ์","n.","สามี (พหูพจน์)","","wives (ภรรยา)"],"i":["ไอ","pron.","ฉัน, ผม","",""],"i'd":["ไอด์","pron.+v.","= I would (ฉันจะ… ในประโยคสมมติ/สุภาพ)","",""],"i'll":["ไอล์","pron.+v.","= I will (ฉันจะ)","",""],"i'm":["ไอม์","pron.+v.","= I am (ฉันเป็น/อยู่)","",""],"ian":["เอียน","ชื่อเฉพาะ","เอียน (ชื่อผู้ชาย)","",""],"idea":["ไอ-เดีย","n.","ความคิด, ความเชื่อ; Good idea = ความคิดดี","thought",""],"if":["อิฟ","conj.","ถ้า (บอกเงื่อนไข)","in case","unless (ถ้าไม่, เว้นแต่)"],"in":["อิน","prep.","ใน","inside","out (ข้างนอก)"],"inferred":["อิน-เฟิร์ด","v.","อนุมาน, สรุปจากข้อมูล (V3 ของ infer)","concluded",""],"instead":["อิน-สเตด","adv.","แทน; instead of = แทนที่จะ","",""],"interesting":["อิน-เทอ-เรส-ทิง","adj.","น่าสนใจ","","boring (น่าเบื่อ)"],"inviting":["อิน-ไว-ทิง","v.","เชิญ (invite + ing)","asking",""],"is":["อิซ","v.","เป็น, อยู่, คือ (ประธานเอกพจน์)","",""],"isn't":["อิซ-เซินท์","v.","ไม่เป็น, ไม่ใช่ (= is not)","","is"],"it":["อิท","pron.","มัน","",""],"item":["ไอ-เทม","n.","ข้อ (ในข้อสอบ)","question",""],"items":["ไอ-เทมส์","n.","ข้อ (พหูพจน์)","",""],"jane":["เจน","ชื่อเฉพาะ","เจน (ชื่อผู้หญิง)","",""],"japan":["เจอะ-แพน","ชื่อเฉพาะ","ประเทศญี่ปุ่น","",""],"joke":["โจ๊ค","n.","เรื่องตลก, มุกตลก","",""],"ken":["เคน","ชื่อเฉพาะ","เคน (ชื่อผู้ชาย)","",""],"kept":["เคพท์","v.","เลี้ยง, เก็บไว้ (อดีตของ keep)","","gave away (ยกให้คนอื่น)"],"key":["คี","n.","กุญแจ","",""],"knew":["นิว","v.","รู้ (อดีตของ know); ใน if … knew = ถ้า…รู้ (สมมติ)","","didn't know"],"know":["โน","v.","รู้","","don't know (ไม่รู้)"],"like":["ไลค์","v./prep.","ชอบ (v.); เหมือน (prep.)","","dislike (ไม่ชอบ)"],"likely":["ไลค์-ลี","adv.","น่าจะ, มีแนวโน้ม; most likely = น่าจะมากที่สุด","probably","unlikely (ไม่น่าจะ)"],"listening":["ลิส-เซอะ-นิง","n.","การฟัง","",""],"little":["ลิ-เทิล","adj./adv.","เล็ก; a little = นิดหน่อย","a bit","a lot (มาก)"],"locker":["ล็อค-เคอร์","n.","ตู้ล็อกเกอร์, ตู้เก็บของ","",""],"longer":["ลอง-เกอร์","adv.","นานกว่า","","shorter (สั้นกว่า)"],"lose":["ลูซ","v.","ทำหาย","","find (หาเจอ)"],"lot":["ล็อท","n.","a lot = มาก","much","a little (นิดหน่อย)"],"love":["ลัฟว","v.","รัก, ชอบมาก; would love to = อยากมาก","","hate (เกลียด)"],"luck":["ลัค","n.","โชค; bad luck = โชคร้าย, good luck = โชคดี","fortune",""],"m":["เมตร","n.","เมตร (หน่วยวัด)","",""],"many":["เม-นี","det.","หลาย, มาก (ใช้กับนามนับได้)","a lot of","few (น้อย)"],"mark":["มาร์ค","ชื่อเฉพาะ","มาร์ค (ชื่อผู้ชาย)","",""],"me":["มี","pron.","ฉัน (กรรม)","",""],"mike":["ไมค์","ชื่อเฉพาะ","ไมค์ (ชื่อผู้ชาย)","",""],"money":["มัน-นี","n.","เงิน","cash",""],"more":["มอร์","det./adv.","มากขึ้น, มากกว่า","","less, fewer (น้อยกว่า)"],"morning":["มอร์-นิง","n.","ตอนเช้า","","evening (ตอนเย็น)"],"most":["โมสท์","adv./det.","มากที่สุด, ส่วนใหญ่","","least (น้อยที่สุด)"],"mother":["มา-เธอร์","n.","แม่","mom","father (พ่อ)"],"my":["มาย","det.","ของฉัน","",""],"nat":["แนท / ณัฐ","ชื่อเฉพาะ","ณัฐ (ชื่อผู้ชาย)","",""],"neighbor":["เน-เบอร์","n.","เพื่อนบ้าน","",""],"never":["เนฟ-เวอร์","adv.","ไม่เคย","","always (เสมอ)"],"new":["นิว","adj.","ใหม่","","old (เก่า)"],"not":["น็อท","adv.","ไม่","",""],"nowhere":["โน-แวร์","adv.","ไม่มีที่ไหนเลย","","anywhere, everywhere"],"number":["นัม-เบอร์","n.","จำนวน, ตัวเลข","amount",""],"o'clock":["อะ-คล็อค","adv.","นาฬิกา (บอกเวลาตรง เช่น 12 o’clock = 12 นาฬิกา)","",""],"of":["ออฟ","prep.","ของ","",""],"old":["โอลด์","adj.","อายุ…; เก่า","","new (ใหม่), young (อายุน้อย)"],"on":["ออน","prep.","บน, ในวัน (เช่น on Saturday)","",""],"one":["วัน","num./pron.","หนึ่ง; อันหนึ่ง","",""],"only":["โอน-ลี","adv.","เท่านั้น, เพียง; only if = ก็ต่อเมื่อ; only get worse = มีแต่จะแย่ลง","just",""],"open":["โอ-เพิน","adj.","เปิด","","closed (ปิด)"],"oranges":["ออ-เรน-จิซ","n.","ส้ม (พหูพจน์)","",""],"other":["อา-เธอร์","adj.","อื่น, อีก (อันหนึ่ง)","another",""],"p.m.":["พี-เอ็ม","abbr.","เวลาหลังเที่ยง (บ่าย-ค่ำ)","","a.m."],"pack":["แพ็ค","v.","จัดกระเป๋า, เก็บของใส่กระเป๋า","",""],"part":["พาร์ท","n.","ส่วน, ตอน","section",""],"party":["พาร์-ตี","n.","งานเลี้ยง, ปาร์ตี้","celebration",""],"passage":["แพส-ซิจ","n.","บทอ่าน, ข้อความ","text",""],"past":["พาสท์","n.","อดีต; in the past = ในอดีต","","future (อนาคต)"],"path":["พาธ","n.","ทาง, เส้นทาง; cross your path = ตัดหน้าคุณ","way",""],"pay":["เพย์","v.","จ่าย","","get paid (ได้รับเงิน)"],"pays":["เพย์ส","v.","จ่าย (ประธานเอกพจน์)","",""],"people":["พี-เพิล","n.","ผู้คน","persons",""],"piano":["เพียน-โน","n.","เปียโน","",""],"pieces":["พีส-ซิซ","n.","ชิ้น, ผล (พหูพจน์); pieces of fruit = ผลไม้ (หลายผล)","",""],"pim":["พิม","ชื่อเฉพาะ","พิม (ชื่อผู้หญิง)","",""],"place":["เพลส","n.","สถานที่","",""],"places":["เพลส-ซิซ","n.","สถานที่ (พหูพจน์)","",""],"please":["พลีซ","adv.","กรุณา, โปรด","",""],"ploy":["พลอย","ชื่อเฉพาะ","พลอย (ชื่อผู้หญิง)","",""],"pool":["พูล","n.","สระว่ายน้ำ","swimming pool",""],"post":["โพสท์","n.","ไปรษณีย์; by post = ส่งทางไปรษณีย์","mail",""],"present":["เพรซ-เซินท์","n.","ของขวัญ","gift",""],"rains":["เรนส์","v.","ฝนตก (ประธาน it); If it rains = ถ้าฝนตก","",""],"raised":["เรซด์","v.","ยก (มือ) ขึ้น (อดีตของ raise)","lifted","lowered (ลดลง)"],"read":["รีด","v.","อ่าน","",""],"reading":["รี-ดิง","n.","การอ่าน","",""],"really":["เรีย-ลี","adv.","จริงๆ","truly",""],"report":["รี-พอร์ท","n.","รายงาน; weather report = รายงาน/พยากรณ์อากาศ","",""],"return":["รี-เทิร์น","v.","กลับมา","come back","leave (จากไป)"],"right":["ไรท์","adj.","ถูกต้อง; You’re right = คุณพูดถูก","correct","wrong (ผิด)"],"road":["โรด","n.","ถนน","street",""],"sadly":["แซด-ลี","adv.","น่าเศร้าที่","unfortunately","happily (โชคดีที่)"],"safely":["เซฟ-ลี","adv.","อย่างปลอดภัย","","dangerously (อย่างอันตราย)"],"said":["เซด","v.","พูด, บอก (อดีตของ say)","told",""],"sailor's":["เซ-เลอร์ส","n.","ของชาวเรือ, ของกะลาสี","",""],"sailors":["เซ-เลอร์ส","n.","ชาวเรือ, กะลาสี (พหูพจน์)","seamen",""],"sara":["ซา-รา","ชื่อเฉพาะ","ซารา (ชื่อผู้หญิง)","",""],"saturday":["แซท-เทอร์-เดย์","n.","วันเสาร์","",""],"saw":["ซอ","v.","เห็น (อดีตของ see)","",""],"say":["เซย์","v.","พูด, บอก","tell",""],"scared":["สแกร์ด","adj.","กลัว; scared of = กลัว…","afraid, frightened","brave (กล้าหาญ)"],"school":["สกูล","n.","โรงเรียน","",""],"scotland":["สก็อท-แลนด์","ชื่อเฉพาะ","สกอตแลนด์ (ประเทศในสหราชอาณาจักร)","",""],"see":["ซี","v.","เห็น; see the dentist = ไปหาหมอฟัน","",""],"seen":["ซีน","v.","เห็น (V3 ของ see); had never seen = ไม่เคยเห็นมาก่อน","",""],"sees":["ซีส์","v.","มอง, เห็น (ประธานเอกพจน์)","",""],"send":["เซนด์","v.","ส่ง","post, mail","receive (ได้รับ)"],"sentence":["เซน-เทินซ์","n.","ประโยค","",""],"shallow":["แชล-โล","adj.","ตื้น","","deep (ลึก)"],"shelter":["เชล-เทอร์","n.","สถานพักพิง; animal shelter = สถานพักพิงสัตว์","",""],"shelters":["เชล-เทอร์ส","n.","สถานพักพิง (พหูพจน์)","",""],"should":["ชูด","v.","ควร","ought to",""],"sign":["ไซน์","n.","ป้าย; สัญลักษณ์, ลางบอกเหตุ (a sign of good luck = สัญลักษณ์ของโชคดี)","symbol",""],"situation":["ซิ-ชู-เอ-ชัน","n.","สถานการณ์","",""],"size":["ไซซ์","n.","ขนาด","",""],"so":["โซ","adv./conj.","ดังนั้น; จึง","therefore",""],"some":["ซัม","det.","บาง, บางส่วน","","all (ทั้งหมด)"],"soon":["ซูน","adv.","ในไม่ช้า, เร็วๆ นี้","shortly","late (สาย)"],"speaking":["สปี-คิง","n.","การพูด","",""],"stay":["สเตย์","v.","อยู่, พักอยู่","remain","leave (ออกไป)"],"stories":["สตอ-รีส์","n.","เรื่องเล่า (พหูพจน์)","tales",""],"story":["สตอ-รี","n.","เรื่อง, เรื่องเล่า","tale",""],"strange":["สเตรนจ์","adj.","แปลกหน้า, ไม่คุ้นเคย, แปลก","unknown, unfamiliar","familiar (คุ้นเคย)"],"strong":["สตรอง","adj.","แข็งแรง; strong swimmer = คนที่ว่ายน้ำเก่ง","good","weak (อ่อนแอ)"],"sure":["ชัวร์","adv.","ได้สิ, แน่นอน","of course, certainly",""],"swim":["สวิม","v.","ว่ายน้ำ","",""],"swimmer":["สวิม-เมอร์","n.","นักว่ายน้ำ, คนว่ายน้ำ","",""],"swimming":["สวิม-มิง","n.","การว่ายน้ำ; swimming pool = สระว่ายน้ำ","",""],"swimsuit":["สวิม-ซูท","n.","ชุดว่ายน้ำ","",""],"talking":["ทอ-คิง","v.","กำลังพูดคุย","chatting",""],"teacher":["ที-เชอร์","n.","ครู","","student (นักเรียน)"],"tell":["เทล","v.","บอก","say",""],"ten":["เทน","num.","สิบ","",""],"than":["แธน","conj.","กว่า (ใช้เปรียบเทียบ)","",""],"thank":["แธงค์","v.","ขอบคุณ","",""],"that":["แธท","pron./conj.","นั้น, ว่า","",""],"the":["เดอะ / ดิ","article","คำนำหน้านามที่เจาะจง","",""],"their":["แธร์","det.","ของพวกเขา","",""],"them":["เธม","pron.","พวกเขา, พวกมัน (กรรม)","",""],"then":["เธน","adv.","ถ้าอย่างนั้น, จากนั้น","so",""],"there":["แธร์","adv.","ที่นั่น; there was/is = มี","","here (ที่นี่)"],"these":["ธีซ","det.","เหล่านี้","","those (เหล่านั้น)"],"they":["เธย์","pron.","พวกเขา, พวกมัน","",""],"things":["ธิงส์","n.","สิ่งของ (พหูพจน์)","stuff",""],"this":["ธิส","det./pron.","นี้, สิ่งนี้","","that (นั้น)"],"thought":["ธอท","v.","คิด (อดีตของ think)","",""],"to":["ทู","prep.","ไปยัง, ถึง; ใช้หน้ากริยา (to + V1)","","from (จาก)"],"today":["ทู-เดย์","adv.","วันนี้","",""],"tom":["ทอม","ชื่อเฉพาะ","ทอม (ชื่อผู้ชาย)","",""],"tomorrow":["ทู-มอ-โร","adv.","พรุ่งนี้","","yesterday (เมื่อวาน)"],"tomorrow's":["ทู-มอ-โรส์","n.","ของวันพรุ่งนี้","",""],"tooth":["ทูธ","n.","ฟัน (1 ซี่)","",""],"toothache":["ทูธ-เอค","n.","อาการปวดฟัน","",""],"trip":["ทริพ","n.","การเดินทาง, ทัศนศึกษา","journey, tour",""],"twelve":["ทเวลฟว์","num.","สิบสอง","",""],"under":["อัน-เดอร์","prep.","ต่ำกว่า, ใต้; under 10 = อายุต่ำกว่า 10 ปี","below","over (มากกว่า)"],"unless":["อัน-เลส","conj.","ถ้าไม่, เว้นแต่ (= if … not)","if … not","if (ถ้า)"],"us":["ยู-เอส","ชื่อเฉพาะ","the US = ประเทศสหรัฐอเมริกา","the USA, America",""],"very":["เว-รี","adv.","มาก","really",""],"visit":["วิซ-ซิท","v.","ไปเยี่ยม, ไปเที่ยวชม","go to",""],"wait":["เวท","v.","รอ","","leave (ไป)"],"was":["วอซ","v.","เป็น, อยู่ (อดีตของ is/am)","",""],"way":["เวย์","n.","วิธี, ทาง; this way = แบบนี้","",""],"we":["วี","pron.","พวกเรา","",""],"wear":["แวร์","v.","สวมใส่","put on","take off (ถอด)"],"weather":["เว-เธอร์","n.","สภาพอากาศ","",""],"were":["เวอร์","v.","เป็น, อยู่ (อดีต); If I were you = ถ้าฉันเป็นคุณ (ใช้ were กับทุกประธานในประโยคสมมติ)","",""],"western":["เวส-เทิร์น","adj.","ทางตะวันตก, แบบตะวันตก","","eastern (ทางตะวันออก)"],"what":["วอท","pron.","อะไร","",""],"where":["แวร์","adv.","ที่ไหน","",""],"who":["ฮู","pron.","ใคร; ผู้ซึ่ง (ขยายคน)","",""],"why":["วาย","adv.","ทำไม","",""],"wife":["ไวฟ์","n.","ภรรยา","","husband (สามี)"],"will":["วิล","v.","จะ (อนาคต)","",""],"wishes":["วิช-ชิซ","n.","ความปรารถนา; Best wishes = ด้วยความปรารถนาดี","",""],"with":["วิธ","prep.","กับ, พร้อมกับ","","without (โดยไม่มี)"],"wives":["ไวฟ์ว","n.","ภรรยา (พหูพจน์ของ wife)","","husbands (สามี)"],"won't":["โวนท์","v.","จะไม่ (= will not)","","will (จะ)"],"wonderful":["วัน-เดอร์-ฟูล","adj.","ยอดเยี่ยม, วิเศษ","great, amazing","terrible (แย่มาก)"],"word":["เวิร์ด","n.","คำ","",""],"words":["เวิร์ดส์","n.","คำ (พหูพจน์)","",""],"workers":["เวิร์ค-เกอร์ส","n.","คนทำงาน, เจ้าหน้าที่ (พหูพจน์)","staff",""],"world":["เวิลด์","n.","โลก","",""],"worse":["เวิร์ส","adj.","แย่ลง, แย่กว่า (ขั้นกว่าของ bad); get worse = แย่ลง","","better (ดีขึ้น)"],"would":["วูด","v.","จะ (ในประโยคสมมติ, อดีตของ will); would return = จะกลับมา","",""],"wouldn't":["วู-เดินท์","v.","จะไม่ (= would not)","","would"],"writing":["ไร-ทิง","n.","การเขียน","",""],"years":["เยียร์ส","n.","ปี (พหูพจน์)","",""],"yet":["เย็ท","adv.","ยัง (ใช้ในประโยคปฏิเสธ); isn’t clear yet = ยังไม่ชัดเจน","","already (แล้ว)"],"you":["ยู","pron.","คุณ","",""],"you're":["ยัวร์","pron.+v.","= you are (คุณเป็น/อยู่)","",""],"your":["ยัวร์","det.","ของคุณ","",""]};
+const SECTIONS = [{"part":"PART 1: LISTENING & SPEAKING (Items 1-3)","groups":[{"head":["Conversation 1: Item 1","Situation: Pim and Tom are talking about tomorrow’s school trip."],"lines":["Pim: I’m not sure what to bring tomorrow.","Tom: The teacher said, “**If it rains, we will visit the aquarium instead of the beach.**”","Pim: ____(1)____","Tom: Good idea. The weather report isn’t clear yet."],"items":[{"n":1,"opts":["Then I’ll pack things for both places.","Then we won’t go anywhere tomorrow.","Then I’ll wear my swimsuit to school.","Then the teacher will go alone."]}]},{"head":["Conversation 2: Items 2-3","Situation: Ken has a toothache and is talking to Ann."],"lines":["Ken: My tooth hurts a lot, but I’m scared of the dentist.","Ann: ____(2)____ **It will only get worse if you wait.**","Ken: You’re right. ____(3)____","Ann: Sure. I’ll go with you after school."],"items":[{"n":2,"opts":["If I were you, I’d see the dentist today.","If I were you, I’d eat more candy.","If you go to the dentist, it will hurt more.","If I were you, I wouldn’t tell anyone."]},{"n":3,"opts":["I’d appreciate it if you came with me.","I’d be angry if you came with me.","If you come, I won’t go.","I’d go alone if you came with me."]}]}]},{"part":"PART 2: READING (Items 4-8)","groups":[{"head":["Reading 1: Items 4-5","Situation: Read the sign."],"lines":["CITY SWIMMING POOL","Open every day: 8 a.m. – 6 p.m.","**Children under 10 can swim only if an adult is with them.**","**If you have a cold, please do not enter the pool.**","**Unless you are a strong swimmer, stay in the shallow end (1.2 m).**","**If you lose your locker key, you will pay 100 baht.**"],"items":[{"n":4,"q":"Who can enter the pool today?","opts":["Ploy, 9, who came alone at 10 a.m.","Mark, 14, who has a bad cold","Fon, 7, who came with her mother at 2 p.m.","Bas, 15, who arrived at 7 p.m."]},{"n":5,"q":"Nat is 13. He can swim only a little. Where should he swim?","opts":["In the shallow end","In the deep end","Nowhere, because he is under 15","Anywhere, if he pays 100 baht"]}]},{"head":["Reading 2: Item 6","Situation: Read the joke."],"lines":["A teacher asked her class, “**If I had ten apples in one hand and twelve oranges in the other hand, what would I have?**”","A boy raised his hand and answered, “Very big hands, teacher!”"],"items":[{"n":6,"q":"Why is the story funny?","opts":["The boy thought about the size of the hands, not the number of fruit.","The teacher really had very big hands.","The boy did not like apples and oranges.","The teacher was holding 22 pieces of fruit."]}]},{"head":["Reading 3: Items 7-8","Situation: Read the feature story."],"lines":["(1) Black cats have an interesting place in world beliefs. In many Western countries, people believe that **if a black cat crosses your path, you will have bad luck.** This idea is hundreds of years old.","(2) However, not everyone sees black cats this way. In Japan, a black cat is a sign of good luck. In Scotland, **if a strange black cat comes to your home, you will soon have money.** In the past, the wives of sailors kept black cats because they believed **their husbands would return safely if there was a black cat at home.**","(3) Sadly, black cats in some animal shelters wait longer for a new home than other cats. Some shelter workers say that **if more people knew these happy stories, more black cats would find families.**"],"items":[{"n":7,"q":"According to the passage, who would most likely expect good luck?","opts":["Anna in the US, who saw a black cat cross the road in front of her","Ian in Scotland, who found a black cat he had never seen at his door","Sara, a sailor’s wife, who gave her black cat to a neighbor","Tom, who believes black cats are bad luck in every country"]},{"n":8,"q":"What can be inferred from the sentence “if more people knew these happy stories, more black cats would find families”?","opts":["Most people already know these happy stories.","Not many people know these stories, so black cats wait longer for a home.","All black cats in shelters have found families.","Black cats bring money to the families that adopt them."]}]}]},{"part":"PART 3: WRITING (Items 9-10)","groups":[{"head":["Writing 1: Items 9-10","Directions: Choose the best word/words to complete the email."],"lines":["Dear Mike,","Thank you for inviting me to your birthday party on Saturday. I would love to come, but I have a piano exam that morning. If the exam ____(9)____ before 12 o’clock, I will come to your party in the afternoon. ____(10)____ I can’t come, I will send your present by post. I hope you have a wonderful day!","Best wishes,","Jane"],"items":[{"n":9,"opts":["finish","finishes","will finish","finished"]},{"n":10,"opts":["Unless","If","Although","Because"]}]}]}];
+const TOKEN = /([ap]\.m\.|[A-Za-z]+(?:[’'][A-Za-z]+)?)/g;
+const keyOf = w => w.toLowerCase().replace(/’/g,"'");
+
+function esc(s){return s.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");}
+function wrapWords(s){
+  return esc(s).replace(TOKEN, m => DICT[keyOf(m)] ? `<span class="w" data-k="${keyOf(m)}">${m}</span>` : m);
+}
+function rich(s){ // **bold** support
+  return s.split(/(\*\*[^*]+\*\*)/).map(p => p.startsWith("**") ? `<b>${wrapWords(p.slice(2,-2))}</b>` : wrapWords(p)).join("");
+}
+const plain = s => s.replace(/\*\*/g,"").replace(/_{2,}\((\d+)\)_{2,}/g,"blank");
+let html = "";
+SECTIONS.forEach(sec => {
+  html += `<div class="part">${rich(sec.part)}</div>`;
+  sec.groups.forEach(g => {
+    html += `<div class="card"><div class="ghead">${rich(g.head[0])}</div><div class="gsit">${rich(g.head[1])}</div>`;
+    g.lines.forEach(l => { html += `<div class="line"><div class="txt">${rich(l)}</div><button class="say" data-say="${esc(plain(l))}" aria-label="ฟังประโยค">🔊</button></div>`; });
+    g.items.forEach(it => {
+      html += `<div class="item">`;
+      html += `<div class="line"><div class="txt q">${it.n}. ${it.q ? rich(it.q) : ""}</div>${it.q ? `<button class="say" data-say="${esc(plain(it.q))}">🔊</button>` : ""}</div>`;
+      it.opts.forEach((o,k) => { html += `<div class="line opt"><div class="txt">${k+1}. ${rich(o)}</div><button class="say" data-say="${esc(plain(o))}">🔊</button></div>`; });
+      html += `</div>`;
+    });
+    html += `</div>`;
+  });
+});
+document.getElementById("content").innerHTML = html;
+
+// speech
+let voice = null;
+function pickVoice(){
+  try{
+    const vs = speechSynthesis.getVoices();
+    voice = vs.find(v=>/en[-_]US/i.test(v.lang) && /female|samantha|google/i.test(v.name)) || vs.find(v=>/en[-_]US/i.test(v.lang)) || vs.find(v=>/^en/i.test(v.lang)) || null;
+  }catch(e){}
+}
+if ("speechSynthesis" in window){ pickVoice(); speechSynthesis.onvoiceschanged = pickVoice; }
+function speak(text, rate){
+  if(!("speechSynthesis" in window)) { alert("อุปกรณ์นี้ไม่รองรับเสียงอ่าน"); return; }
+  speechSynthesis.cancel();
+  const u = new SpeechSynthesisUtterance(text.replace(/\ba\.m\./gi,"A M").replace(/\bp\.m\./gi,"P M"));
+  u.lang = "en-US"; u.rate = rate || 0.9; if(voice) u.voice = voice;
+  speechSynthesis.speak(u);
+}
+
+// sheet
+const sheet = document.getElementById("sheet");
+let current = null, selEl = null;
+function show(k, el){
+  const d = DICT[k]; if(!d) return;
+  current = k;
+  if(selEl) selEl.classList.remove("sel");
+  selEl = el || null; if(selEl) selEl.classList.add("sel");
+  document.getElementById("sWord").textContent = el ? el.textContent : k;
+  document.getElementById("sPos").textContent = d[1];
+  document.getElementById("sRead").textContent = d[0];
+  document.getElementById("sMean").textContent = d[2];
+  document.getElementById("sSyn").textContent = d[3];
+  document.getElementById("sAnt").textContent = d[4];
+  document.getElementById("rSyn").style.display = d[3] ? "" : "none";
+  document.getElementById("rAnt").style.display = d[4] ? "" : "none";
+  sheet.classList.add("show");
+  speak(el ? el.textContent : k, 0.9);
+}
+document.addEventListener("click", e => {
+  const w = e.target.closest(".w"); if(w){ show(w.dataset.k, w); return; }
+  const s = e.target.closest(".say"); if(s){ speak(s.dataset.say, 0.85); return; }
+  const b = e.target.closest(".wl button"); if(b){ show(b.dataset.k, null); return; }
+});
+document.getElementById("sClose").onclick = () => { sheet.classList.remove("show"); if(selEl) selEl.classList.remove("sel"); };
+document.getElementById("sSay").onclick = () => current && speak(document.getElementById("sWord").textContent, 0.9);
+document.getElementById("sSlow").onclick = () => current && speak(document.getElementById("sWord").textContent, 0.55);
+
+// word list
+const keys = Object.keys(DICT).sort();
+function renderList(q){
+  q = (q||"").trim().toLowerCase();
+  const shown = keys.filter(k => !q || k.includes(q) || DICT[k][2].toLowerCase().includes(q));
+  document.getElementById("count").textContent = `${shown.length} คำ`;
+  document.getElementById("wl").innerHTML = shown.map(k => `<button data-k="${k}"><b>${k}</b><small>${esc(DICT[k][2])}</small></button>`).join("");
+}
+renderList("");
+document.getElementById("search").addEventListener("input", e => renderList(e.target.value));
+const tT = document.getElementById("tText"), tL = document.getElementById("tList");
+tT.onclick = () => { tT.classList.add("on"); tL.classList.remove("on"); document.getElementById("textView").style.display=""; document.getElementById("listView").style.display="none"; };
+tL.onclick = () => { tL.classList.add("on"); tT.classList.remove("on"); document.getElementById("textView").style.display="none"; document.getElementById("listView").style.display="block"; };
+</script>
+</body>
+</html>
